@@ -8,6 +8,9 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { Modal } from "bootstrap/dist/js/bootstrap.min";
+import Footer from "../Component/Footer";
+import Header from "../Component/Header";
+import '../assets/css/header.css'
 const Home = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState([]);
@@ -72,6 +75,8 @@ const Home = () => {
 
   return (
     <>
+      <Header/>
+
       <div className="container p-0">
         <Link to="addProduct">
           <button className="btn btn-primary mt-5 w-100 py-2 fs-4">
@@ -79,9 +84,9 @@ const Home = () => {
           </button>
         </Link>
 
-        <div className="row gap-1 mt-5 justify-content-center">
+        <div className="row g-4 mt-5 justify-content-center">
           {product.map((ele,index) => (
-            <div className="col col-sm-5 col-md-4 col-lg-3 border border-1 shadow p-0 mb-4" key={index}>
+            <div className="col-5 col-sm-5 col-md-4 col-lg-3 border border-1 shadow p-0 mb-4" key={index}>
               <img src={ele.image} alt="" width="100%" height={200} />
               <div className="card-body px-2">
                 <h3
@@ -149,6 +154,8 @@ const Home = () => {
           ))}
         </div>
       </div>
+
+      <Footer/>
 
       {/* Modal */}
       <div className="modal fade"
