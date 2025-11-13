@@ -31,6 +31,7 @@ const SingleProduct = () => {
                 <h2>name : {single.product_name}</h2>
                 <p>category : {single.category} </p>
                 <p>price : {single.price} </p>
+                <p>total product : {single.total  } </p>
                 <p>description : {single.description} </p>
                 <button className='btn btn-outline-dark'>buy</button>
             </div>

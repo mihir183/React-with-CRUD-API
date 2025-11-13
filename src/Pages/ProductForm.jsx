@@ -83,8 +83,18 @@ const ProductForm = () => {
             type="text"
             {...register("price")}
             className="form-control mb-2"
-            placeholder="Enter priceription"
+            placeholder="Enter price"
             id="price"
+          />
+          <label htmlFor="total" className="form-label text-capitalize mb-2">
+            total product
+          </label>
+          <input
+            type="text"
+            {...register("total")}
+            className="form-control mb-2"
+            placeholder="Enter Total Product"
+            id="total"
           />
           <label htmlFor="date" className="form-label text-capitalize mb-2">
             product date
