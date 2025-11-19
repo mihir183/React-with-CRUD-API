@@ -20,6 +20,9 @@ const Home = () => {
   const [price, setPrice] = useState("des");
   const [total, setTotal] = useState("des");
   const [single, setSingle] = useState({});
+  const [table, settable] = useState(0);
+  const [search, setSearch] = useState("");
+  const [limit,setLimit] = useState(4);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -32,7 +35,6 @@ const Home = () => {
   }
 
   useEffect(() => {
-    document.querySelector(".tableView").style.display = "none";
     fetchData();
   }, []);
 
@@ -108,28 +110,20 @@ const Home = () => {
     setTotal(order);
   }
 
+  const filterData = product.filter((ele) => {
+    return (
+      ele.product_name.toLowerCase().includes(search.toLowerCase()) ||
+      ele.category.toLowerCase().includes(search.toLowerCase()) ||
+      ele.price.toLowerCase().includes(search.toLowerCase())
+    );
+  });
+
   // Show data  in Table or Card View
   function show(name) {
     if (name == "table") {
-      document.querySelector(".tableView").style.display = "";
-      document.querySelector(".cardView").style.display = "none";
-
-      // Bg-color add
-      document.querySelector(".cardBtn").classList.add("bg-secondary");
-      document.querySelector(".tableBtn").classList.add("bg-dark");
-      // Bg-color remove
-      document.querySelector(".cardBtn").classList.remove("bg-dark");
-      document.querySelector(".tableBtn").classList.remove("bg-secondary");
+      settable(1);
     } else {
-      document.querySelector(".tableView").style.display = "none";
-      document.querySelector(".cardView").style.display = "flex";
-
-      // Bg-color add
-      document.querySelector(".cardBtn").classList.add("bg-dark");
-      document.querySelector(".tableBtn").classList.add("bg-secondary");
-      // Bg-color remove
-      document.querySelector(".cardBtn").classList.remove("bg-secondary");
-      document.querySelector(".tableBtn").classList.remove("bg-dark");
+      settable(0);
     }
   }
 
@@ -148,202 +142,274 @@ const Home = () => {
         </Link>
         {/* Buttonn for Add Product */}
 
-        {/* Toggle Button for Table view or Card View */}
-        <div>
-          <div className="btn-group mt-5">
-            <button
-              className="tableBtn btn btn-secondary"
-              onClick={() => {
-                show("table");
-              }}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Show Table View"
-            >
-              <FaTableCells />
-            </button>
-            <button
-              className="cardBtn btn btn-dark"
-              onClick={() => {
-                show("card");
-              }}
-              data-toggle="tooltip"
-              data-placement="top"
-              title="Show Card View"
-            >
-              <IoIdCardSharp />
-            </button>
-          </div>
-        </div>
-        {/* Toggle Button for Table view or Card View */}
+        <div className="row mt-5">
+          <div className="col">
+            {/* Toggle Button for Table view or Card View */}
+            <div className="btn-group">
+              {table == 0 ? (
+                <>
+                  <button
+                    className="tableBtn btn btn-secondary"
+                    onClick={() => {
+                      show("table");
+                    }}
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Show Table View"
+                  >
+                    <FaTableCells />
+                  </button>
+                  <button
+                    className="cardBtn btn btn-dark"
+                    onClick={() => {
+                      show("card");
+                    }}
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Show Card View"
+                  >
+                    <IoIdCardSharp />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    className="tableBtn btn btn-dark"
+                    onClick={() => {
+                      show("table");
+                    }}
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Show Table View"
+                  >
+                    <FaTableCells />
+                  </button>
+                  <button
+                    className="cardBtn btn btn-secondary"
+                    onClick={() => {
+                      show("card");
+                    }}
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Show Card View"
+                  >
+                    <IoIdCardSharp />
+                  </button>
+                </>
+              )}
+            </div>
+            {/* Toggle Button for Table view or Card View */}
 
-        {/* Card View */}
-        <div className="cardView row g-4 mt-5 justify-content-center">
-          {product.map((ele, index) => (
-            <div
-              className="col-5 col-sm-5 col-md-4 col-lg-3 border border-1 shadow p-0 mb-4 rounded-3"
-              key={index}
-            >
-              <img
-                src={ele.image}
-                alt=""
-                width="100%"
-                height={250}
-                className="rounded-3"
-              />
-              <div className="card-body px-2">
-                <h3
-                  className="text-capitalize overflow-hidden"
-                  style={{ height: "40px" }}
-                >
-                  name : {ele.product_name}
-                </h3>
-                <p className="text-capitalize">category : {ele.category}</p>
-                <p className="text-capitalize">price : {ele.price}</p>
-                <p
-                  className="text-capitalize overflow-hidden"
-                  style={{ height: "40px" }}
-                >
-                  desc : {ele.description}
-                </p>
+          </div>
+          <div className="col col-lg-5">
+            <div className="row justify-content-end">
+              <div className="col-lg-8">
+                  <input type="search"
+                    name=""
+                    id=""
+                    className="form-control"
+                    placeholder="Search by Name/Price/Category"
+                    onChange={(e) => {
+                      setSearch(e.target.value);
+                    }}
+                  />
               </div>
-              <div className="btn-group w-100">
-                <button
-                  className="btn btn-primary"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="See More Detail"
-                  onClick={() => navigate(`/single-product/${ele.id}`)}
-                >
-                  <GrOverview />
-                </button>
-                <button
-                  className="btn btn-danger"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Delete Product"
-                  data-bs-toggle="modal"
-                  onClick={() => {
-                    trashProduct(ele.id);
-                  }}
-                  //   data-bs-target="#deletemodal"
-                >
-                  <MdDelete />
-                </button>
-                <button
-                  className="btn btn-warning"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Edit Product"
-                  data-bs-toggle="modal"
-                  data-bs-target="#exampleModal"
-                  onClick={() => {
-                    SingleProduct(ele.id);
-                  }}
-                >
-                  <VscEditorLayout />
-                </button>
-                <button
-                  className="btn btn-info"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="Edit Product"
-                  onClick={() => {
-                    navigate(`/addProduct/${ele.id}`);
-                  }}
-                >
-                  <RiEdit2Fill />
-                </button>
+              <div className="col-lg-3">
+                <select className="form-select"  onChange={(e)=>{setLimit(e.target.value)}}>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="15">15</option>
+                  <option value="20">20</option>
+                </select>
               </div>
             </div>
-          ))}
+          </div>
         </div>
-        {/* End Card View */}
 
-        {/* Table View */}
-        <div className="tableDiv w-100 mt-5">
-          <table className="tableView table w-100">
-            <thead>
-              <tr>
-                <th className="text-capitalize">sr.no</th>
-                <th className="text-capitalize">product image</th>
-                <th className="text-capitalize">product name</th>
-                <th className="text-capitalize">
-                  price ($)
-                  {price == "des" ? (
-                    <button
-                      className="btn bg-transparent p-0"
-                      onClick={() => {
-                        sortPrice("asc");
-                      }}
-                    >
-                      <FaLongArrowAltDown />
-                    </button>
-                  ) : (
-                    <button
-                      className="btn bg-transparent p-0"
-                      onClick={() => {
-                        sortPrice("des");
-                      }}
-                    >
-                      <FaLongArrowAltUp />
-                    </button>
-                  )}
-                </th>
-                <th className="text-capitalize">
-                  total product
-                  {total == "des" ? (
-                    <button
-                      className="btn bg-transparent p-0"
-                      onClick={() => {
-                        sortTotal("asc");
-                      }}
-                    >
-                      <FaLongArrowAltDown />
-                    </button>
-                  ) : (
-                    <button
-                      className="btn bg-transparent p-0"
-                      onClick={() => {
-                        sortTotal("des");
-                      }}
-                    >
-                      <FaLongArrowAltUp />
-                    </button>
-                  )}
-                </th>
-                <th className="text-capitalize">actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {product.map((ele, index) => (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td>
-                    <img src={ele.image} alt="" width={70} height={70} />
-                  </td>
-                  <td className="text-capitalize">{ele.product_name}</td>
-                  <td className="text-info fw-bolder">$ {ele.price}</td>
-                  <td>{ele.total}</td>
-                  <td>
-                    <div className="btn-group">
-                      <button className="btn btn-primary" onClick={() => navigate(`/single-product/${ele.id}`)}>
+        {table == 0 ? (
+          // Card View
+          <div className="cardView row g-4 mt-5 justify-content-center">
+            {filterData &&
+              filterData.slice(0,limit).map((ele, index) => (
+                <div
+                  className="col-5 col-sm-5 col-md-4 col-lg-3 border border-1 shadow p-0 mb-4 rounded-3"
+                  key={index}
+                >
+                  <div className="card">
+                    <img
+                      src={ele.image}
+                      alt=""
+                      width="100%"
+                      height={250}
+                      className="rounded-3"
+                    />
+                    <div className="card-body px-2">
+                      <h3
+                        className="text-capitalize overflow-hidden"
+                        style={{ height: "40px" }}
+                      >
+                        name : {ele.product_name}
+                      </h3>
+                      <p className="text-capitalize">
+                        category : {ele.category}
+                      </p>
+                      <p className="text-capitalize">price : {ele.price}</p>
+                      <p
+                        className="text-capitalize"
+                      >
+                        desc : {ele.description.substring(0,20)}...
+                      </p>
+                    </div>
+                    <div className="btn-group w-100">
+                      <button
+                        className="btn btn-primary"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="See More Detail"
+                        onClick={() => navigate(`/single-product/${ele.id}`)}
+                      >
                         <GrOverview />
                       </button>
-                      <button className="btn btn-info">
-                        <RiEdit2Fill />
-                      </button>
-                      <button className="btn btn-danger" onClick={() => {trashProduct(ele.id);}}>
+                      <button
+                        className="btn btn-danger"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Delete Product"
+                        data-bs-toggle="modal"
+                        onClick={() => {
+                          trashProduct(ele.id);
+                        }}
+                        //   data-bs-target="#deletemodal"
+                      >
                         <MdDelete />
                       </button>
+                      <button
+                        className="btn btn-warning"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Edit Product"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        onClick={() => {
+                          SingleProduct(ele.id);
+                        }}
+                      >
+                        <VscEditorLayout />
+                      </button>
+                      <button
+                        className="btn btn-info"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="Edit Product"
+                        onClick={() => {
+                          navigate(`/addProduct/${ele.id}`);
+                        }}
+                      >
+                        <RiEdit2Fill />
+                      </button>
                     </div>
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
-        </div>
-        {/* End Table View */}
+          </div>
+        ) : (
+          //  End Card View
+          // Table View
+          <div className="tableDiv w-100 mt-5">
+            <table className="tableView table w-100">
+              <thead>
+                <tr>
+                  <th className="text-capitalize">sr.no</th>
+                  <th className="text-capitalize">product image</th>
+                  <th className="text-capitalize">product name</th>
+                  <th className="text-capitalize">
+                    price ($)
+                    {price == "des" ? (
+                      <button
+                        className="btn bg-transparent p-0"
+                        onClick={() => {
+                          sortPrice("asc");
+                        }}
+                      >
+                        <FaLongArrowAltDown />
+                      </button>
+                    ) : (
+                      <button
+                        className="btn bg-transparent p-0"
+                        onClick={() => {
+                          sortPrice("des");
+                        }}
+                      >
+                        <FaLongArrowAltUp />
+                      </button>
+                    )}
+                  </th>
+                  <th className="text-capitalize">
+                    total product
+                    {total == "des" ? (
+                      <button
+                        className="btn bg-transparent p-0"
+                        onClick={() => {
+                          sortTotal("asc");
+                        }}
+                      >
+                        <FaLongArrowAltDown />
+                      </button>
+                    ) : (
+                      <button
+                        className="btn bg-transparent p-0"
+                        onClick={() => {
+                          sortTotal("des");
+                        }}
+                      >
+                        <FaLongArrowAltUp />
+                      </button>
+                    )}
+                  </th>
+                  <th className="text-capitalize">actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filterData &&
+                  filterData.map((ele, index) => (
+                    <tr>
+                      <td>{index + 1}</td>
+                      <td>
+                        <img src={ele.image} alt="" width={70} height={70} />
+                      </td>
+                      <td className="text-capitalize">{ele.product_name}</td>
+                      <td className="text-info fw-bolder">$ {ele.price}</td>
+                      <td>{ele.total}</td>
+                      <td>
+                        <div className="btn-group">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() =>
+                              navigate(`/single-product/${ele.id}`)
+                            }
+                          >
+                            <GrOverview />
+                          </button>
+                          <button className="btn btn-info">
+                            <RiEdit2Fill />
+                          </button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => {
+                              trashProduct(ele.id);
+                            }}
+                          >
+                            <MdDelete />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+          // End Table View
+        )}
       </div>
 
       <Footer />
