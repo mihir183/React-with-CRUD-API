@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
+import Header from "../Component/Header";
+import Footer from "../Component/Footer";
 
 const ProductForm = () => {
   const { id } = useParams();
@@ -41,6 +43,7 @@ const ProductForm = () => {
   }, [id]);
   return (
     <>
+    <Header/>
       <div className="col-lg-6 m-auto mt-5 shadow p-5 rounded-3">
         <h1 className="text-capitalize text-center">add products</h1>
         <form action="" onSubmit={handleSubmit(addData)}>
@@ -107,7 +110,7 @@ const ProductForm = () => {
             id="date"
           />
           <label htmlFor="desc" className="form-label text-capitalize mb-2">
-            product date
+            product description
           </label>
           <textarea
             type="text"
@@ -128,6 +131,7 @@ const ProductForm = () => {
           )}
         </form>
       </div>
+    <Footer/>
     </>
   );
 };

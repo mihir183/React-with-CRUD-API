@@ -22,7 +22,7 @@ const Home = () => {
   const [single, setSingle] = useState({});
   const [table, settable] = useState(0);
   const [search, setSearch] = useState("");
-  const [limit,setLimit] = useState(4);
+  const [limit, setLimit] = useState(4);
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -199,23 +199,28 @@ const Home = () => {
               )}
             </div>
             {/* Toggle Button for Table view or Card View */}
-
           </div>
           <div className="col col-lg-5">
             <div className="row justify-content-end">
               <div className="col-lg-8">
-                  <input type="search"
-                    name=""
-                    id=""
-                    className="form-control"
-                    placeholder="Search by Name/Price/Category"
-                    onChange={(e) => {
-                      setSearch(e.target.value);
-                    }}
-                  />
+                <input
+                  type="search"
+                  name=""
+                  id=""
+                  className="form-control"
+                  placeholder="Search by Name/Price/Category"
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                  }}
+                />
               </div>
               <div className="col-lg-3">
-                <select className="form-select"  onChange={(e)=>{setLimit(e.target.value)}}>
+                <select
+                  className="form-select"
+                  onChange={(e) => {
+                    setLimit(e.target.value);
+                  }}
+                >
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -229,20 +234,21 @@ const Home = () => {
         {table == 0 ? (
           // Card View
           <div className="cardView row g-4 mt-5 justify-content-center">
-            {filterData &&
-              filterData.slice(0,limit).map((ele, index) => (
+            {filterData && filterData.slice(0, limit).map((ele, index) => (
                 <div
                   className="col-5 col-sm-5 col-md-4 col-lg-3 border border-1 shadow p-0 mb-4 rounded-3"
                   key={index}
                 >
                   <div className="card">
-                    <img
-                      src={ele.image}
-                      alt=""
-                      width="100%"
-                      height={250}
-                      className="rounded-3"
-                    />
+                    <Link to={`/single-product/${ele.id}`}>
+                      <img
+                        src={ele.image}
+                        alt=""
+                        width="100%"
+                        height={250}
+                        className="rounded-3"
+                      />
+                    </Link>
                     <div className="card-body px-2">
                       <h3
                         className="text-capitalize overflow-hidden"
@@ -254,10 +260,8 @@ const Home = () => {
                         category : {ele.category}
                       </p>
                       <p className="text-capitalize">price : {ele.price}</p>
-                      <p
-                        className="text-capitalize"
-                      >
-                        desc : {ele.description.substring(0,20)}...
+                      <p className="text-capitalize">
+                        desc : {ele.description.substring(0, 20)}...
                       </p>
                     </div>
                     <div className="btn-group w-100">
@@ -371,7 +375,7 @@ const Home = () => {
               </thead>
               <tbody>
                 {filterData &&
-                  filterData.map((ele, index) => (
+                  filterData.slice(0,limit).map((ele, index) => (
                     <tr>
                       <td>{index + 1}</td>
                       <td>
@@ -410,6 +414,15 @@ const Home = () => {
           </div>
           // End Table View
         )}
+      </div>
+
+      <div className="w-100 text-center my-3">
+        <button
+          className="btn btn-primary mx-auto"
+          onClick={(e) => setLimit(limit + 4)}
+        >
+          show more
+        </button>
       </div>
 
       <Footer />

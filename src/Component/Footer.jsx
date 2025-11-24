@@ -8,7 +8,7 @@ const Footer = () => {
         <div className='footer bg-dark w-100 p-0 mt-5'>
             <div className="row mx-0 p-5 align-items-center">
                 <div className="col p-0 m-0">
-                    <p className='text-light text-capitalize m-0'>developed by <Link to="" className='text-light text-decoration-none'>@mihir vaghela</Link></p>
+                    <p className='text-light text-capitalize m-0'>developed by <Link to="https://github.com/mihir183" target="_blank" className='text-light text-decoration-none'>@mihir vaghela</Link></p>
                 </div>
                 <div className="col">
                     <ul className='d-flex list-unstyled gap-5 justify-content-end m-0'>

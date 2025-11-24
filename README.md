@@ -1,7 +1,10 @@
-<img src="/src/assets/images/output1.png" alt="output">
-<img src="/src/assets/images/output2.png" alt="output">
-<img src="/src/assets/images/output3.png" alt="output">
-<img src="/src/assets/images/output4.png" alt="output">
-<img src="/src/assets/images/output5.png" alt="output">
-<img src="/src/assets/images/output6.png" alt="output">
-<img src="/src/assets/images/output7.png" alt="output">
+<img src="/src/assets/images/output/home.png" alt="output">
+<img src="/src/assets/images/output/home2.png" alt="output">
+<img src="/src/assets/images/output/table.png" alt="output">
+<img src="/src/assets/images/output/limit.png" alt="output">
+<img src="/src/assets/images/output/filtering.png" alt="output">
+<img src="/src/assets/images/output/edit_modal.png" alt="output">
+<img src="/src/assets/images/output/edit_form.png" alt="output">
+<img src="/src/assets/images/output/add_product.png" alt="output">
+<img src="/src/assets/images/output/single_product.png" alt="output">
+<img src="/src/assets/images/output/qr.png" alt="output">
